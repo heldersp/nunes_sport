@@ -1,0 +1,29 @@
+<!-- product_form.html -->
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>{{ form.instance.id|yesno:"Edit Product,Create Product" }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">{{ form.instance.id|yesno:"Update,Create" }}</button>
+</form>
+
+<script>
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+        var productName = document.querySelector('#id_name').value;
+        var productPrice = document.querySelector('#id_price').value;
+
+        if (productName.trim() === '') {
+            alert('Product name cannot be empty.');
+            event.preventDefault();
+        }
+
+        if (isNaN(productPrice) || productPrice <= 0) {
+            alert('Please enter a valid price.');
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock %}
